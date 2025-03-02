@@ -1,0 +1,23 @@
+name: medical-llm-env
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.10
+  - pip
+  - openai
+  - spacy
+  - pydantic
+  - fastapi
+  - uvicorn
+  - numpy
+  - pandas
+  - tqdm
+  - pytest
+  - jupyter
+  - pytesseract 
+  - pdf2image
+  - pip:
+      - pymupdf
+      - python-dotenv
