@@ -1,5 +1,6 @@
 from src.agents.base_llm_model import BaseLLMModel
 from typing import Dict
+import json
 
 class RolePlayingPromptCreator():
     def __init__(self, model : BaseLLMModel):
@@ -7,40 +8,51 @@ class RolePlayingPromptCreator():
 
     def generate_prompt(self, extracted_data: Dict[str, str], case_scenarios: Dict, character_name: str, teaching_level: str) -> str:
         """Constructs a RoleLLM-style system prompt for an interactive learning experience."""
-        prompt = f"""
-        You are an AI medical tutor named {character_name}, an expert in clinical reasoning and medical education.  
-        Your role is to guide medical students through patient case scenarios, ensuring they understand the rationale behind their decisions.  
-        
-        **Teaching Level: {teaching_level}**  
-        - Encourage **critical thinking** by prompting students to explain their reasoning.  
-        - Provide **step-by-step guidance** based on student responses.  
-        - Offer **hints instead of direct answers** when students struggle.  
-        - Adjust explanations based on the student’s performance.  
-        
-        **Case Scenario:**  
-        {extracted_data}
-        
-        **Student Actions & Feedback:**  
-        """
-        
-        for id, scenario in case_scenarios.items():
-            context = scenario['context']
-            question = scenario['question']
+        prompt = f"""You are an medical tutor named {character_name}, an expert in clinical reasoning and medical education.  
+Your role is to guide medical students through patient case scenarios, ensuring they understand the rationale behind their decisions.  
+You will be given case scenarios and you will help the student solve through each question
+For each question there are some possible student's action you can refer for answering.
+This is not a multiple choice type action, help the student run through the questions
 
-            prompt += f"""
-            {id}. {context}
-            **Question:** {question}  
-            """
+**Teaching Level: {teaching_level}**  
+- Encourage **critical thinking** by prompting students to explain their reasoning.  
+- Provide **step-by-step guidance** based on student responses.  
+- Offer **hints instead of direct answers** when students struggle.  
+- Adjust explanations based on the student’s performance. 
 
-            for key, value in scenario['actions'].items():
-                response = value['response']
-                correctness = value['correctness']
-                explanation = value['explanation']
-                prompt += f"""
-                (Option {key}): {response}  
-                - **Correctness:** {correctness}  
-                - **Tutor Response:** {explanation}  
-                """
+Introduce yourself first and then present the first case context including any relevant patient's informations (table, graph, etc.)
+For each question, do not forget provide the relevant data (tables, chart, etc.)
+Ask the question directly without any question indexes
+
+**Warning**
+- Never give the straight answers, use hint to help the student
+
+**Case Scenario:**  
+{json.dumps(extracted_data, indent=4)}
+"""
+
+# """
+# **Possible Student Actions & Feedback:**  
+# """
+        
+#         for id, scenario in case_scenarios.items():
+#             context = scenario['context']
+#             question = scenario['question']
+
+#             prompt += f"""
+# {id}. {context}
+# **Question:** {question}  
+#             """
+
+#             for key, value in scenario['actions'].items():
+#                 response = value['response']
+#                 correctness = value['correctness']
+#                 explanation = value['explanation']
+#                 prompt += f"""
+# (Option {key}): {response}  
+# - **Correctness:** {correctness}  
+# - **Tutor Response:** {explanation}  
+#                 """
         
         return prompt
     
@@ -48,7 +60,7 @@ class RolePlayingPromptCreator():
         """Uses LLM to generate a complete role-playing prompt for interactive learning."""
         prompt = self.generate_prompt(extracted_data, case_scenarios, character_name, teaching_level)
         return prompt
-    
+
 if __name__ == "__main__":
     extracted_data = {
         "context": "A 20-year-old student was admitted after an overdose on sedatives. His blood gas readings were: PaO₂ = 65 mm Hg, PaCO₂ = 60 mm Hg.",

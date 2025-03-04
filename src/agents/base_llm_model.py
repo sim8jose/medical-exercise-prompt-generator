@@ -6,13 +6,13 @@ load_dotenv()
 
 class BaseLLMModel:
     def __init__(self):
-        # self.model = "gpt-4o-mini"
-        # self.client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
-        # self.cost_per_1m_tokens = 0.3
+        self.model = "gpt-4o-mini"
+        self.client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+        self.cost_per_1m_tokens = 0.3
 
-        self.model = "deepseek-chat"
-        self.client = OpenAI(api_key=os.getenv('DEEPSEEK_API_KEY'), base_url="https://api.deepseek.com")
-        self.cost_per_1m_tokens = 1.1
+        # self.model = "deepseek-chat"
+        # self.client = OpenAI(api_key=os.getenv('DEEPSEEK_API_KEY'), base_url="https://api.deepseek.com")
+        # self.cost_per_1m_tokens = 1.1
 
         self.total_usage_tokens = 0
         self.total_cost = 0
@@ -24,6 +24,19 @@ class BaseLLMModel:
         )
 
         
+        self.total_usage_tokens += response.usage.total_tokens
+        self.total_cost += response.usage.total_tokens / 1e6 * self.cost_per_1m_tokens
+
+        return response.choices[0].message.content
+    
+
+    def generate_completion_full(self, messages: list) -> str:
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=messages
+        )
+        
+        # Track token usage and cost
         self.total_usage_tokens += response.usage.total_tokens
         self.total_cost += response.usage.total_tokens / 1e6 * self.cost_per_1m_tokens
 

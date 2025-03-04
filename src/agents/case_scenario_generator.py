@@ -68,8 +68,9 @@ class CaseScenarioGenerator():
     def generate_scenarios(self, extracted_data: Dict[str, str]) -> Dict:
         """Uses LLM to generate case-based scenarios and evaluate responses."""
         prompt = self.generate_prompt(extracted_data)
-        output = self.model.generate_completion(prompt).replace('```json', '').replace('```', '')
-        return json.loads(output)
+        # output = self.model.generate_completion(prompt).replace('```json', '').replace('```', '')
+        # return json.loads(output)
+        return {}
 
     
 if __name__ == "__main__":

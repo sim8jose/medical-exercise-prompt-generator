@@ -15,16 +15,24 @@ class AnswerExtractorAgent():
     
     def extract_text_from_txt(self, answer_path: str) -> str:
         """Extracts raw text from a Text."""
-        with open(answer_path, "r") as file:
-            content = file.read()
+
+        if answer_path.endswith('.pdf'):
+            doc = fitz.open(answer_path)
+            text = "\n".join([page.get_text("text") for page in doc])
+
+            return text
         
-        return content
+        elif answer_path.endswith('.text'):
+            with open(answer_path, "r") as file:
+                content = file.read()
+        
+            return content
     def generate_prompt(self, raw_text: str, answer_text: str) -> str:
         """Constructs a system prompt for LLM-based extraction."""
         return f"""
         You are an AI assistant designed to extract structured learning components from medical case study exercises.  
         Your task is to process the provided medical text and extract:
-        1. **Context** – The background information relevant to the case.  
+        1. **Context** – The background information relevant to the case and all available patient's data including tables, graph, etc.  
         2. **Question** – The specific question the student must answer.  
         3. **Expected Answer** – The correct response expected from the student.  
         4. **Teaching Hint** – A way to help guide the student if they struggle with the question. 
