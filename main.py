@@ -10,16 +10,24 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 
 
 def save_prompt_to_file(prompt: str, output_file: str):
+    if output_file == None or output_file == '':
+        return
+    
     # Save the prompt to a text file
     with open(output_file, 'w') as file:
         file.write(prompt)
         
-    print(f"Prompt has been saved to {output_file}")
 
-def main(pdf_path: str, answer_path: str, output_path: str, character_name: str = "Dr. Wong", teaching_level: str = "Junior"):
+    print(f"Prompt has been saved to {output_file}")
+def main(pdf_path: str, answer_path: str, output_path: str, character_name: str = "Dr. Wong", teaching_level: str = "Junior", log_callback=None):
     """Orchestrates the three agents to generate a complete role-playing prompt from a medical PDF."""
     
-    logging.info("Initializing agents...")
+    def log_message(message):
+        if log_callback:
+            log_callback(message)
+        logging.info(message)  # Still log to console/file
+    
+    log_message("Initializing agents...")
     
     # Initialize agents
     model = BaseLLMModel()
@@ -28,40 +36,32 @@ def main(pdf_path: str, answer_path: str, output_path: str, character_name: str 
     role_prompt_creator = RolePlayingPromptCreator(model)
     
     # Step 1: Extract raw text from PDF
-    logging.info(f"Extracting raw text from PDF: {pdf_path}")
+    log_message(f"Extracting raw text from PDF: {pdf_path}")
     raw_text = answer_extractor.extract_text_from_pdf(pdf_path)
     answer_text = answer_extractor.extract_text_from_txt(answer_path)
     
-    logging.debug(f"Raw Text: {raw_text[:200]}...")  # Log only the first 200 chars for brevity
-    logging.debug(f"Answer Text: {answer_text[:200]}...")  # Log only the first 200 chars for brevity
-
-    # Step 2: Extract structured answers from the text
-    logging.info("Extracting structured answers from text...")
+    log_message("Extracting structured answers from text...")
     extracted_data = answer_extractor.extract_answers(raw_text, answer_text)
     
-    logging.debug(f"Extracted Data: {extracted_data}")  # Log the extracted data
-    
-    # Step 3: Generate case scenarios based on the extracted data
-    logging.info("Generating case scenarios...")
+    log_message("Generating case scenarios...")
     case_scenarios = scenario_generator.generate_scenarios(extracted_data)
     
-    logging.debug(f"Case scenarios: {case_scenarios}")  # Log the generated scenarios
-    
-    # Step 4: Generate the final role-playing prompt
-    logging.info("Generating the final role-playing prompt...")
+    log_message("Generating the final role-playing prompt...")
     role_playing_prompt = role_prompt_creator.generate_role_playing_prompt(
         extracted_data, case_scenarios, character_name, teaching_level
     )
 
-    logging.info("Generated Role-Playing Prompt:\n")
-    logging.info(role_playing_prompt)
+    log_message("Generated Role-Playing Prompt:")
+    log_message(role_playing_prompt)
 
-    logging.info(f"Total Token Usage: {model.total_usage_tokens}")
-    logging.info(f"Estimated Cost: {model.total_cost:.8f} $")
+    log_message(f"Total Token Usage: {model.total_usage_tokens}")
+    log_message(f"Estimated Cost: {model.total_cost:.8f} $")
 
-    # Run the function to generate and save the prompt
+    # Save the prompt if an output path is provided
     save_prompt_to_file(role_playing_prompt, output_path)
-    logging.info(f"Prompt saved to {output_path}")
+    log_message(f"Prompt saved to {output_path}")
+
+    return role_playing_prompt, model.total_usage_tokens, model.total_cost
 
 
 if __name__ == "__main__":
