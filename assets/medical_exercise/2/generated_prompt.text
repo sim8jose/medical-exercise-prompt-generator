@@ -20,33 +20,33 @@ Ask the question directly without any question indexes
 **Case Scenario:**  
 {
     "0": {
-        "context": "A 62-year-old man consulted his family doctor because of a 6-month history of severe headache and excessive perspiration. He became aware of changes in his peripheral visual vision, describing it as objects disappearing suddenly. He has a 15-year history of hypertension and occasional shoulder and hand joint pain diagnosed as osteoarthritis. Physical examination revealed coarse facial features, enlarged hands and feet, a prominent jaw, and bitemporal hemianopia. His BP was 145/105 mmHg and glycosuria was detected. X-ray imaging of the head revealed a grossly enlarged pituitary fossa, consistent with a sellar mass.",
+        "context": "A 62-year-old man consulted his family doctor because of a 6-month history of severe headache and excessive perspiration. He reported changes in his peripheral visual vision described as objects disappearing suddenly. He has a history of hypertension for 15 years and occasional shoulder and hand joint pain diagnosed as osteoarthritis. Physical examination revealed coarse facial features, enlarged hands and feet, a prominent jaw, and bitemporal hemianopia. His BP was 145/105 mmHg and glycosuria was detected. X-ray imaging of the head revealed a grossly enlarged pituitary fossa, consistent with a sellar mass. Biochemical investigations showed abnormal plasma analyte concentrations for glucose, LH, FSH, prolactin, testosterone, GH, cortisol, TSH, and FT4.",
         "question": "What is the most likely diagnosis based on the clinical and radiological findings?",
         "expected_answer": "The most likely diagnosis is acromegaly due to a growth hormone-secreting pituitary adenoma.",
-        "teaching_hint": "Consider the combination of the patient's symptoms and the imaging findings related to pituitary tumors."
+        "teaching_hint": "Consider the symptoms associated with growth hormone excess and the findings of the sellar mass."
     },
     "1": {
-        "context": "The biochemical investigations revealed: Plasma analyte concentrations for glucose (8.6 mM), LH (0.8 IU/L), FSH (1.1 IU/L), prolactin (480 mU/L), testosterone (7.1 nM), GH (9.0 mU/L), cortisol (260 nM), TSH (0.5 mU/L), and FT4 (10.2 pM). These investigations were performed to assess the hormonal profile of the patient and understand any pituitary dysfunction.",
+        "context": "Biochemical investigations were performed including plasma concentrations of glucose (8.6 mM), LH (0.8 IU/L), FSH (1.1 IU/L), prolactin (480 mU/L), testosterone (7.1 nM), GH (9.0 mU/L), cortisol (260 nM), TSH (0.5 mU/L), and FT4 (10.2 pM).",
         "question": "Suggest why the above biochemical investigations were performed and explain the findings.",
-        "expected_answer": "The investigations were performed to evaluate for excess growth hormone (indicating acromegaly), potential hypopituitarism (evidenced by low LH, FSH, and testosterone), and investigate hyperprolactinemia. The findings show elevated prolactin and altered LH and FSH levels, suggesting effects from the tumor on normal pituitary function.",
-        "teaching_hint": "Relate hormonal levels to the physiological functions of the anterior pituitary and the implications of pituitary adenomas."
+        "expected_answer": "The investigations were performed to assess hormone levels indicating GH excess, evaluate pituitary function, and check for glycosuria related to diabetes. Findings include elevated prolactin, low testosterone, low LH, low FSH indicating pituitary dysfunction, and elevated glucose indicating potential diabetes.",
+        "teaching_hint": "Think about how hormone secretion and feedback mechanisms can be affected by pituitary tumors."
     },
     "2": {
-        "context": "A GH suppression test was administered with an oral dose of 75 g glucose. The results showed glucose levels rising over time and variations in GH levels throughout the test periods at fasting, 30, 60, 90, and 120 minutes.",
+        "context": "A GH suppression test with an oral dose of 75 g glucose (OGTT) was conducted with results that showed varying levels of GH at various time points after the glucose load.",
         "question": "Give reasons for performing this test and interpret the findings.",
-        "expected_answer": "The GH suppression test was performed to assess the response of growth hormone levels to a glucose challenge, which normally suppresses GH. The findings indicate that GH levels did not adequately suppress with the glucose increase, suggestive of a GH-secreting adenoma due to loss of physiological regulation.",
-        "teaching_hint": "Think about how normal physiology dictates GH suppression after glucose intake and how a tumor alters this response."
+        "expected_answer": "The test was performed to evaluate the ability of glucose to suppress GH secretion. The findings show a lack of adequate suppression of GH levels in response to glucose, indicating a possible GH-secreting adenoma.",
+        "teaching_hint": "Consider the normal physiological response to glucose and how it is altered in cases of GH-secreting tumors."
     },
     "3": {
-        "context": "The patient presented with headaches, excessive sweating, bitemporal hemianopia, and physical changes such as coarse facial features and enlarged extremities, all suggesting acromegaly due to GH excess, as well as mass effects from the pituitary tumor.",
+        "context": "The patient has clinical presentations related to GH excess, such as headaches, excessive perspiration, bitemporal hemianopia, enlarged hands and feet, and hypertension.",
         "question": "How are the clinical presentations of this patient related to the underlying disorder? Explain your answers.",
-        "expected_answer": "The clinical presentations correlate directly with growth hormone excess and the mass effect of the pituitary tumor. Headaches are due to increased intracranial pressure, excessive sweating relates to metabolic changes from GH, bitemporal hemianopia is due to optic chiasm compression, while the facial and limb changes (acromegaly) result from prolonged GH action on tissues.",
-        "teaching_hint": "Connect individual symptoms to the overarching pathology of growth hormone excess and the physical effects of a pituitary mass."
+        "expected_answer": "The patient's symptoms are directly related to GH excess: headaches and hypertension may stem from increased intracranial pressure and vascular effects; excessive perspiration is due to increased sweat gland activity; bitemporal hemianopia results from tumor pressure on the optic chiasm; and acromegaly is evident in enlarged extremities and coarse facial features.",
+        "teaching_hint": "Link each clinical symptom to its pathophysiological mechanism related to excess growth hormone."
     },
     "4": {
-        "context": "Possible treatment options for the patient include medical therapy with somatostatin analogs (octreotide), dopamine agonists (cabergoline), GH receptor antagonists (pegvisomant), and surgical options such as hypophysectomy.",
+        "context": "The patient could be treated using medical or surgical means, including medications like octreotide, cabergoline, pegvisomant, or surgical resection of the pituitary tumor.",
         "question": "How could this patient be treated?",
-        "expected_answer": "Treatment options include medical management with medications like octreotide or cabergoline, aiming to reduce GH levels. Surgical intervention to remove the pituitary adenoma may also be necessary.",
-        "teaching_hint": "Consider the mechanism of action for each treatment modality in relation to the patient\u2019s condition."
+        "expected_answer": "The patient could be treated with octreotide, a somatostatin agonist; cabergoline, a dopamine agonist; or pegvisomant, a GH receptor antagonist. Surgical treatment may involve hypophysectomy.",
+        "teaching_hint": "Consider the mechanism of action of different medications used to regulate hormone levels in pituitary disorders."
     }
 }
